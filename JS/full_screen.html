@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    <!--
+    全屏时生效的css
+
+    -->
+    html:-moz-full-screen {
+        background: red;
+    }
+
+    html:-webkit-full-screen {
+        background: red;
+    }
+
+    html:fullscreen {
+        background: red;
+    }
+</style>
+<script type="text/javascript">
+    //监听事件
+    document.addEventListener("fullscreenchange",function () {
+        alert("fullscreenchange");
+    },false);
+    document.addEventListener("mozfullscreenchange",function () {
+        alert("mozfullscreenchange");
+    },false);
+    document.addEventListener("webkitfullscreenchange",function () {
+        alert("webkitfullscreenchange");
+    },false);
+    document.addEventListener("msfullscreenchange",function () {
+        alert("msfullscreenchange");
+    },false);
+
+    function full_screen() {
+        var de = document.documentElement;
+        //w3c
+        console.log("w3c: " + de.requestFullscreen)
+        console.log("moz: " + de.mozRequestFullScreen)
+        console.log("ms:  " + de.msRequestFullScreen)
+        console.log("ms:  " + de.webkitRequestFullScreen)
+        if (de.requestFullscreen) {
+            de.requestFullscreen();
+        } else if (de.mozRequestFullScreen) {
+            de.mozRequestFullScreen();
+        } else if (de.msRequestFullscreen) {
+            de.msRequestFullscreen();
+        } else if (de.webkitRequestFullScreen) {
+            de.webkitRequestFullScreen();
+        }
+    }
+
+</script>
+<body>
+<input value="全屏" type="button" onclick="full_screen()">
+</body>
+</html>
