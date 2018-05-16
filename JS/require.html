@@ -17,17 +17,19 @@
             "jquery": ["https://code.jquery.com/jquery-3.3.1.min"],
             "skim_haha": ["js/skim_haha"]
         },
-
-
         //配置加载的根目录
         //baseUrl: "js"
     });
     //延迟加载js
-    require(["js/hello", "jquery","skim_haha"], function (hello,$,skim_haha) {
-        alert("load finished");
-        hello.test();
-        skim_haha.test();
-    });
+    require(["js/hello", "jquery", "skim_haha"],
+        function (hello, $, skim_haha) {
+            alert("load finished");
+            hello.test();
+            skim_haha.test();
+        },
+        function (no) {
+            alert('error:' + no)
+        });
     alert(1)
 </script>
 </body>

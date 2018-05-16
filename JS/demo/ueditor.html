@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ueditor demo</title>
+    <script type="text/javascript" src="../js/r.js"></script>
+    <script type="text/javascript">
+        require.config({
+            baseUrl: '../lib',
+            urlArgs: 'r=' + (new Date()).getTime(),
+            paths: {
+                ueditor: 'ueditor/ueditor.all',
+                ueditor_config: 'ueditor/ueditor.config',
+                zero_clipboard: 'ueditor/third-party/zeroclipboard/ZeroClipboard'
+            },
+            shim: {
+                ueditor: {
+                    deps: [
+                        'zero_clipboard',
+                        'ueditor_config',
+                        // 'css!ueditor/themes/default/css/ueditor.css'
+                    ],
+                    exports: 'UE',
+                    init: function (ZeroClipboard) {
+                        //导出到全局变量，供ueditor使用
+                        window.ZeroClipboard = ZeroClipboard;
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<script id="container" name="content" type="text/plain" style="height: 200px">我是测试内容</script>
+<script type="text/javascript">
+    require(['ueditor'], function (UE) {
+        alert(1);
+        var editor = UE.getEditor('container');
+    });
+</script>
+</body>
+</html>
