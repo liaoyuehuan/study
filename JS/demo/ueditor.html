@@ -35,7 +35,12 @@
 <script type="text/javascript">
     require(['ueditor'], function (UE) {
         alert(1);
-        var editor = UE.getEditor('container');
+        var editor = UE.getEditor('container',{
+            initialFrameWidth :800,//设置编辑器宽度
+            initialFrameHeight:250,//设置编辑器高度
+            scaleEnabled:true//设置不自动调整高度
+//scaleEnabled {Boolean} [默认值：false]//是否可以拉伸长高，(设置true开启时，自动长高失效)
+        });
     });
 </script>
 </body>
