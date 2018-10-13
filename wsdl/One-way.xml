@@ -1,0 +1,12 @@
+<definictions>
+    <message name="newTermValues">
+        <part name="term" type="xs:string"/>
+        <part name="value" type="xs:string"/>
+    </message>
+
+    <portType>
+        <operation name="setTerm">
+            <input name="newTerm" message="newTermValues"/>
+        </operation>
+    </portType>
+</definictions>

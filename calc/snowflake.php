@@ -57,6 +57,14 @@ abstract class Particle
 
 $id = Particle::generateParticle();
 $time = Particle::timeFromParticle($id);//
-echo PHP_INT_MAX . PHP_EOL;
+echo $id . PHP_EOL;
 echo $id . PHP_EOL;
 echo date('Y-m-d H:i:s', $time / 1000);
+
+$ids = [];
+for($i = 1;$i <= 1000;$i++){
+    usleep(0.1);
+    $id = Particle::generateParticle();
+    $ids[$id] = true;
+}
+var_dump(count($ids));
