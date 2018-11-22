@@ -34,7 +34,7 @@ class Aes {
 //        MCRYPT_MODE_STREAM;
 
         //128、192、256
-
+        
         $size = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128,MCRYPT_MODE_CBC);
         //pkcs5_pad
         $pad = $size - (strlen($input) % $size);

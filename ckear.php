@@ -1,23 +1,19 @@
 <?php
 
-if(!isset($argv[1])) {
-    echo 'filename : argument 1 is required';
-}
-$filename = $argv[1];
+$a = "1111.11";
+$b = (float)$a;
+$c = (int)($b * 100);
+$d = intval($b * 100);
+$e = intval($b * 1000 / 10);
+echo 'a=' . $a . PHP_EOL;
+echo 'b=' . $b . PHP_EOL;
+echo 'c=' . $c . PHP_EOL;
+echo 'd=' . $d . PHP_EOL;
+echo 'e=' . $e . PHP_EOL;
 
-$content = file_get_contents($filename);
-preg_match('`.*,',$content,$rs);
+$str = 'sadasdasdas';
+$rs = chunk_split($str, 2, '#');
 var_dump($rs);
 
-var_dump(floor(time() / 2) * 2);
 
-$password = '12345';
-$salt = '3JL7z3zk';
-$salt2 = 'nPCHs4fr3K1q4It0tVMr';
-var_dump(DoEmpireCMSAdminPassword($password,$salt,$salt2));
-
-function DoEmpireCMSAdminPassword($password,$salt,$salt2){
-    $pw=md5($salt2.'E!m^p-i(r#e.C:M?S'.md5(md5($password).$salt).'d)i.g^o-d'.$salt);
-    return $pw;
-}
 

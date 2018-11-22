@@ -139,3 +139,18 @@ echo 'cipher text:' . $cipherText . PHP_EOL;
 echo 'plaint text:' . $plaintText . PHP_EOL;;
 
 
+/**
+ * openssl sign
+ */
+$tempdoc = __DIR__ . '/pdf/base.pdf';
+openssl_sign(file_get_contents($tempdoc), $rs, openssl_pkey_get_private(file_get_contents(__DIR__ . '/ssl/rsa_private_key.pem'), '123456'));
+var_dump(strlen($rs));
+var_dump(openssl_verify(file_get_contents($tempdoc), $rs, openssl_get_publickey(file_get_contents(__DIR__ . '/ssl/server.cert'))));
+exit();
+
+
+/**
+ * openssl pkcs7 encry
+ */
+$ourfile = __DIR__ . '/pdf/out_base.pdf';
+openssl_pkcs7_encrypt($tempdoc, $ourfile);

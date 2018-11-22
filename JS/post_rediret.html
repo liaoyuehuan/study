@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+1111
+
+<script type="text/javascript">
+
+    var form = document.createElement('form');
+    form.action = 'https://www.baidu.com/';
+    form.type = 'post';
+    form.target = '_blank';
+    var ele = document.createElement('input');
+    ele.name = 'username';
+    ele.value = "laozi";
+    form.appendChild(ele);
+    document.body.appendChild(form);
+    form.submit();
+
+
+</script>
+</body>
+</html>
