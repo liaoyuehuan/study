@@ -11,8 +11,9 @@
  * @keep_alive boolean
  */
 define('testUrl', 'http://bswg2.95105813.cn:8080/AGW/services/AGWService?wsdl');
+define('conzhuUrl', 'http://dbagw.95105813.cn:80/AGW/services/AGWService?wsdl');
 define('url', 'http://dbagw.95105813.cn/AGW/services/AGWService?wsdl');
-define('tsa_url','http://bswg2.95105813.cn:8280/tsp/services/TSPService?wsdl');
+define('tsa_url', 'http://bswg2.95105813.cn:8280/tsp/services/TSPService?wsdl');
 
 class CertUniqueIDReq extends SOAPable
 {
@@ -83,6 +84,7 @@ function testCaHashData()
 function testGetTime()
 {
     $soap = new SoapClient(testUrl);
+    $soap->__setLocation(testUrl);
     $return = $soap->WS_GetTime();
     var_dump($return);
 }
@@ -99,17 +101,20 @@ function testGenRand()
 
 function testCheckCert()
 {
-    $cert = file_get_contents(__DIR__ . '/ssl/cert.der');
+    $cert = file_get_contents(__DIR__ . '/ssl/tsp_cert.cer');
     libxml_disable_entity_loader(false);
     $cert = base64_encode($cert);
-    $soap = new SoapClient(testUrl, [
+    $soap = new SoapClient(conzhuUrl, [
         'trace' => true
     ]);
+    $soap->__setLocation(conzhuUrl);
     try {
         $return = $soap->WS_CheckCert([
-            'appID' => 'GDCATest',
-            'operID' => 'VerifySign',
-            'cert' => $cert
+            'req' => [
+                'appID' => 'GDCATest',
+                'operID' => 'VerifySign',
+                'cert' => $cert
+            ]
         ]);
         var_dump($return);
     } catch (SoapFault $e) {
@@ -122,15 +127,20 @@ function testCheckCert()
 
 function testGetCertUniqueID()
 {
+    ini_set('soap.wsdl_cache_enabled', 0);
+    ini_set('soap.wsdl_cache_ttl', 0);
     $cert = file_get_contents(__DIR__ . '/ssl/cert.der');
     libxml_disable_entity_loader(false);
     $cert = base64_encode($cert);
-    $soap = new SoapClient(testUrl, [
+    $opts = array(
+        'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)
+    );
+    $soap = new SoapClient(conzhuUrl, [
         'trace' => true,
-        'classmap' => [
-            'CertUniqueIDReq' => 'CertUniqueIDReq'
-        ]
+        'cache_wsdl ' => WSDL_CACHE_NONE,
+//        'stream_context' => stream_context_create($opts)
     ]);
+    $soap->__setLocation(conzhuUrl);
     try {
 
         $return = $soap->WS_GetCertUniqueID([
@@ -150,14 +160,16 @@ function testGetCertUniqueID()
 
 function testSealTimeStamp()
 {
-    $client = new SoapClient(tsa_url, [
+    $client = new SoapClient(conzhuUrl, [
         'trace' => true,
-        'soap_version' => SOAP_1_2
+//        'soap_version' => SOAP_1_2
     ]);
+    $client->__setLocation(conzhuUrl);
     try {
-        $return = $client->SealTimeStamp([
+        $return = $client->WS_SealTimeStamp([
             'req' => [
-                'algType' => 'rsa',
+                'appID' => 'GDCATest',
+                'operID' => 'VerifySign',
                 'orgData' => 'hello world'
             ]
         ]);
@@ -168,6 +180,29 @@ function testSealTimeStamp()
     }
 }
 
-testSealTimeStamp();
+function testVerifyTimeStamp()
+{
+    $client = new SoapClient(conzhuUrl, [
+        'trace' => true,
+//        'soap_version' => SOAP_1_2
+    ]);
+    $client->__setLocation(conzhuUrl);
+    $client->__setLocation(conzhuUrl);
+    try {
+        $return = $client->WS_VerifyTimeStamp([
+            'req' => [
+                'appID' => 'GDCATest',
+                'operID' => 'VerifySign',
+                'orgData' => 'hello world',
+                'sealData' => 'adasdsadsad',
+                'tsaCert' => 'sadsadasd'
+            ]
+        ]);
+        var_dump($return);
+    } catch (SoapFault $e) {
+        var_dump($client->__getLastResponseHeaders());
+        throw $e;
+    }
+}
 
-
+testCheckCert();
