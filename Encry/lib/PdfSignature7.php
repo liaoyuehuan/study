@@ -8,7 +8,9 @@
 
 namespace xl;
 
+use ASN1\Type\TaggedType;
 use ASN1\Type\UnspecifiedType;
+use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 
@@ -38,6 +40,11 @@ class PdfSignature
      * @var array
      */
     private $byteRanges;
+
+    /**
+     * @var int[]
+     */
+    private $tsaTimestamps = [];
 
     /**
      * PdfSign constructor.
@@ -259,6 +266,86 @@ class PdfSignature
     }
 
     /**
+     * @param $pkcs7DetachedDer
+     * @return null|string
+     */
+    public function getTsaPkcs7DetachedDer($pkcs7DetachedDer)
+    {
+        $sequence = UnspecifiedType::fromDER($pkcs7DetachedDer)->asSequence()->at(1)->asTagged()
+            ->asExplicit()->asSequence()->at(4)->asSet()->at(0)->asSequence();
+        $lastUnspecifiedType = $sequence->at($sequence->count() - 1);
+        if ($lastUnspecifiedType->asElement() instanceof TaggedType) {
+            return $lastUnspecifiedType->asElement()->toDER();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param $tsaPkcs7DetachedDer string
+     * @return string
+     */
+    public function getTrueTsaPkcs7DetachedDer($tsaPkcs7DetachedDer){
+        return UnspecifiedType::fromDER($tsaPkcs7DetachedDer)
+            ->asTagged()->asExplicit()->asSequence()
+            ->at(1)->asSet()
+            ->at(0)->asSequence()->toDER();
+    }
+
+    /**
+     * @param $index int
+     * @return null|string
+     * @throws \Exception
+     */
+    public function atTsaPkcs7DetachedDer($index)
+    {
+        if (false === isset($this->pkcs7DetachedDerList[$index])) {
+            throw  new \Exception('out of index for tsa x509 data ');
+        }
+        $pkcs7DetachedDer = $this->pkcs7DetachedDerList[$index];
+        return $this->getTsaPkcs7DetachedDer($pkcs7DetachedDer);
+    }
+
+    /**
+     * @param string $pkcs7DetachedDer
+     * @return string
+     */
+    public function getTsaX509DerByPkcs7DetachedDer($pkcs7DetachedDer)
+    {
+        $tsaPkcs7DetachedDer = $this->getTsaPkcs7DetachedDer($pkcs7DetachedDer);
+        return $this->getX509DerByPkcs7DetachedDer($tsaPkcs7DetachedDer);
+    }
+
+    public function getTsaX509PemByPkcs7DetachedDer($pkcs7DetachedDer)
+    {
+        $tsaX509Der = $this->getTsaX509DerByPkcs7DetachedDer($pkcs7DetachedDer);
+        return $this->x509DerToPem($tsaX509Der);
+    }
+
+    public function atTsaX509Der($index)
+    {
+        if (false === isset($this->pkcs7DetachedDerList[$index])) {
+            throw  new \Exception('out of index for tsa x509 data ');
+        }
+        $pkcs7DetachedDer = $this->pkcs7DetachedDerList[$index];
+        return $this->getTsaX509PemByPkcs7DetachedDer($pkcs7DetachedDer);
+    }
+
+    /**
+     * @param $index int
+     * @return string
+     * @throws \Exception
+     */
+    public function atTsaX509Pem($index)
+    {
+        if (false === isset($this->pkcs7DetachedDerList[$index])) {
+            throw  new \Exception('out of index for x509 data ');
+        }
+        $pkcs7DetachedDer = $this->pkcs7DetachedDerList[$index];
+        return $this->getTsaX509PemByPkcs7DetachedDer($pkcs7DetachedDer);
+    }
+
+    /**
      * @param string $pem
      * @return bool|string
      */
@@ -270,6 +357,90 @@ class PdfSignature
         $der = base64_decode($base64Der);
         return $der;
     }
+
+    /**
+     * @param $index int
+     * @return string
+     * @throws \Exception
+     */
+    public function atTsaPublicKey($index)
+    {
+        $publicKey = openssl_pkey_get_public($this->atTsaX509Pem($index));
+        $publicKeyDetail = openssl_pkey_get_details(openssl_get_publickey($publicKey));
+        return $publicKeyDetail['key'];
+    }
+
+    /**
+     * @param $tsaPkcs7DetachedDer string
+     * @return string
+     */
+    public function getTsaSignatureFromTsaPkcs7DetachedDer($tsaPkcs7DetachedDer){
+        return $this->getSignatureFromPkcs7DerDetachedDer($tsaPkcs7DetachedDer);
+    }
+
+    /**
+     * @param $tsaPkcs7DetachedDer
+     * @return string
+     */
+    public function getTSTInfoDerFromTsaPkcs7DetachedDer($tsaPkcs7DetachedDer)
+    {
+        $TSTInfoDer = UnspecifiedType::fromDER($tsaPkcs7DetachedDer)->asTagged()->asExplicit()->asSequence()
+            ->at(1)->asSet()
+            ->at(0)->asSequence()
+            ->at(1)->asTagged()->asExplicit()->asSequence()
+            ->at(2)->asSequence()
+            ->at(1)->asTagged()->asExplicit()->asOctetString()->string();
+        return $TSTInfoDer;
+    }
+
+    /**
+     * @param $index int
+     * @return string
+     * @throws \Exception
+     */
+    public function atTSTInfoDerFromTsaPkcs7DetachedDer($index){
+        $tsaPkcs7DetachedDer = $this->atTsaPkcs7DetachedDer($index);
+        return $this->getTSTInfoDerFromTsaPkcs7DetachedDer($tsaPkcs7DetachedDer);
+    }
+
+    /**
+     * @param $tSTInfoDer string
+     * @return AlgorithmIdentifier
+     */
+    public function getAlgorithmFromTSTInfoDer($tSTInfoDer){
+        $oid = UnspecifiedType::fromDER($tSTInfoDer)->asSequence()->at(2)->asSequence()->at(0)->asSequence()->at(0)->asObjectIdentifier()->oid();
+        $className = (new AlgorithmIdentifierFactory())->getClass($oid);
+        /** @var $algorithmIdentifier AlgorithmIdentifier/**/
+        $algorithmIdentifier = new $className;
+        return $algorithmIdentifier;
+    }
+
+    /**
+     * @param $tSTInfoDer
+     * @return string
+     */
+    public function getMessageImprintDigestFromTSTInfoDer($tSTInfoDer){
+        $messageImprintDigest = UnspecifiedType::fromDER($tSTInfoDer)->asSequence()->at(2)->asSequence()->at(1)->asOctetString()->string();
+        return $messageImprintDigest;
+    }
+
+    /**
+     * @param $index int
+     * @param $timestamp int
+     */
+    public function setTsaTimestamp($index,$timestamp){
+        $this->tsaTimestamps[$index] = $timestamp;
+    }
+
+    /**
+     * @param $tSTInfoDer
+     * @return \DateTimeImmutable
+     */
+    public function getTimestampFromTSTInfoDer($tSTInfoDer){
+        $dateTime = UnspecifiedType::fromDER($tSTInfoDer)->asSequence()->at(4)->asGeneralizedTime()->dateTime();
+        return $dateTime;
+    }
+
 
     /**
      * @param string $der
@@ -338,8 +509,16 @@ class PdfSignature
     public function atSignature($index)
     {
         $pkcs7DerDetached = $this->atPkcs7DetachedDer($index);
+        return $this->getSignatureFromPkcs7DerDetachedDer($pkcs7DerDetached);
+    }
+
+    /**
+     * @param $pkcs7DerDetachedDer
+     * @return string
+     */
+    public function getSignatureFromPkcs7DerDetachedDer($pkcs7DerDetachedDer){
         $seq = UnspecifiedType::fromDER(
-            $pkcs7DerDetached
+            $pkcs7DerDetachedDer
         )->asSequence()
             ->at(1)->asTagged()
             ->asExplicit()->asSequence()
@@ -395,15 +574,53 @@ class PdfSignature
     }
 
     /**
+     * @param $index int
+     * @return bool
+     * @throws \Exception
+     */
+    public function atVerifyTsa($index){
+        $signature = $this->atSignature($index);
+        $tsaPublicKey = $this->atTsaPublicKey($index);
+        $tsaPkcs7DetachedDer = $this->atTsaPkcs7DetachedDer($index);
+        $trueTsaPkcs7DetachedDer = $this->getTrueTsaPkcs7DetachedDer($tsaPkcs7DetachedDer);
+        $TSTInfoDer = $this->getTSTInfoDerFromTsaPkcs7DetachedDer($tsaPkcs7DetachedDer);
+        $messageImprintDigest = $this->getMessageImprintDigestFromTSTInfoDer($TSTInfoDer);
+        $tsaAlgorithm = $this->getAlgorithmFromTSTInfoDer($TSTInfoDer);
+        $timeStampPlainTextDigest = hex2bin(openssl_digest($signature,$tsaAlgorithm->name()));
+        $tsaSignature = $this->getSignatureFromPkcs7DerDetachedDer($trueTsaPkcs7DetachedDer);
+        if ($messageImprintDigest === $timeStampPlainTextDigest) {
+            $authenticateAttribute = $this->getAuthenticateAttributeFromPkcs7DetachedDer($trueTsaPkcs7DetachedDer);
+            $algorithm = $this->getAlgorithmFromPkcs7DetachedDer($trueTsaPkcs7DetachedDer);
+            $success = openssl_verify($authenticateAttribute, $tsaSignature, $tsaPublicKey, $algorithm->name());
+            if ($success == 1){
+                $this->tsaTimestamps[$index] = $this->getTimestampFromTSTInfoDer($TSTInfoDer)->getTimestamp();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @param $index
      * @return null|string
      * @throws \Exception
      */
     public function atAuthenticateAttribute($index)
     {
-        $pkcs7DerDetached = $this->atPkcs7DetachedDer($index);
+        $pkcs7DerDetachedDer = $this->atPkcs7DetachedDer($index);
+        return $this->getAuthenticateAttributeFromPkcs7DetachedDer($pkcs7DerDetachedDer);
+    }
+
+    /**
+     * @param $pkcs7DerDetachedDer string
+     * @return null|string
+     */
+    public function getAuthenticateAttributeFromPkcs7DetachedDer($pkcs7DerDetachedDer){
         $seq = UnspecifiedType::fromDER(
-            $pkcs7DerDetached
+            $pkcs7DerDetachedDer
         )->asSequence()
             ->at(1)->asTagged()
             ->asExplicit()->asSequence()
@@ -424,13 +641,21 @@ class PdfSignature
     /**
      * @param $index
      * @throws \Exception
-     * @return HashAlgorithmIdentifier
+     * @return AlgorithmIdentifier
      */
     public function atAlgorithm($index)
     {
+        return $this->getAlgorithmFromPkcs7DetachedDer($this->atPkcs7DetachedDer($index));
+    }
+
+    /**
+     * @param $der
+     * @return AlgorithmIdentifier
+     */
+    public function getAlgorithmFromPkcs7DetachedDer($der){
         $IdentifierFactory = new AlgorithmIdentifierFactory();
         $class = $IdentifierFactory->getClass(UnspecifiedType::fromDER(
-            $this->atPkcs7DetachedDer($index)
+            $der
         )->asSequence()
             ->at(1)->asTagged()
             ->asExplicit()->asSequence()
@@ -452,13 +677,33 @@ class PdfSignature
                 'sign_date' => date('Y-m-d H:i:s', $this->signTime[$index]),
                 'cn' => $result['subject']['CN'],
                 'issuer_o' => $result['issuer']['O'],
-                'is_use_timestamp' => false,
-                'timestamp' => '',
-                'is_valid_timestamp' => false,
                 'serial_number' => $result['serialNumber'],
                 'valid_from' => $result['validFrom'],
                 'valid_to' => $result['validTo'],
                 'is_file_modified' => $this->atIsFileModified($index),
+            ];
+        }
+        throw new \Exception('cert parse error');
+    }
+
+    /**
+     * @param $index int
+     * @return array
+     * @throws \Exception
+     */
+    public function getTimestampInfo($index)
+    {
+        if ($this->atTsaPkcs7DetachedDer($index)) {
+            return [
+                'is_use_timestamp' => true,
+                'is_valid_timestamp' => isset($this->tsaTimestamps[$index]),
+                'timestamp' => date('Y-m-d H:i:s', $this->tsaTimestamps[$index])
+            ];
+        } else {
+            return [
+                'is_use_timestamp' => false,
+                'timestamp' => '',
+                'is_valid_timestamp' => false,
             ];
         }
     }

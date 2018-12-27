@@ -14,6 +14,7 @@
 namespace xl;
 
 use ASN1\Type\UnspecifiedType;
+use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 
 require_once __DIR__ . '/lib/PdfSignature7.php';
@@ -163,8 +164,32 @@ function testTs()
 
 }
 
+function testTsa()
+{
+    $pkcs7File = __DIR__ . '/pdf/gdca.pdf';
+    $obj = new PdfSignature($pkcs7File);
+    $tsaPkcs7DetachedDer = $obj->atTsaPkcs7DetachedDer(0);
+    $sequence = UnspecifiedType::fromDER($tsaPkcs7DetachedDer)->asTagged()->asExplicit()
+        ->asSequence()->at(1);
+    $TSTInfoDer = $obj->getTSTInfoDerFromTsaPkcs7DetachedDer($tsaPkcs7DetachedDer);
+    $oid = UnspecifiedType::fromDER($TSTInfoDer)->asSequence()->at(2)->asSequence()->at(0)->asSequence()->at(0)->asObjectIdentifier()->oid();
+    $className = (new AlgorithmIdentifierFactory())->getClass($oid);
+    /** @var $algorithmIdentifier AlgorithmIdentifier/**/
+    $algorithmIdentifier = new $className;
+    echo 'digest : '.($algorithmIdentifier->name()).PHP_EOL;
+    $timestampInfoHash = UnspecifiedType::fromDER($TSTInfoDer)->asSequence()->at(2)->asSequence()->at(1)->asOctetString()->string();
+    echo 'timestamp info hash : '.(bin2hex($timestampInfoHash));
+}
+
+function testTsaVerify(){
+    $pkcs7File = __DIR__ . '/pdf/gdca.pdf';
+    $obj = new PdfSignature($pkcs7File);
+    $success = $obj->atVerifyTsa(0);
+    var_dump($success);
+}
+
 try {
-    testTs();
+    testTsaVerify();
     exit();
     $signature = $obj->atPkcs7DetachedDer(0);
     //soap
