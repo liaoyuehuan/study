@@ -1,0 +1,15 @@
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CHALLENGE</key>
+	<string>optional challenge</string>
+	<key>IMEI</key>
+	<string>35 489709 070740 8</string>
+	<key>PRODUCT</key>
+	<string>iPhone10,1</string>
+	<key>UDID</key>
+	<string>4983a3ba6cfc955006882e4bb0851f8ced1fb809</string>
+	<key>VERSION</key>
+	<string>15E302</string>
+</dict>
+</plist>
