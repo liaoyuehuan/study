@@ -27,4 +27,3 @@ var_dump($arr[1.1]);
 var_dump($arr[1.10]);
 var_dump($arr['2']);
 var_dump('aaa');
-
