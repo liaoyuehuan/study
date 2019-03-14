@@ -1,5 +1,6 @@
 <?php
 
+//算金额时，取分并且向上取整
 $a = "1111.11";  //但是111.11没有这个问题
 $b = (float)$a;
 $c = (int)($b * 100);
@@ -25,3 +26,24 @@ var_dump($arr['1.1']);
 var_dump($arr[1.1]);
 var_dump($arr[1.10]);
 var_dump($arr['2']);
+
+$arr = [
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+    'asdsada',
+];
+
+var_dump(array_chunk($arr,10));
+

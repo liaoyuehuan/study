@@ -108,12 +108,18 @@ class LibReOffice
         $this->tempFile = $tempFile;
     }
 
+
     /**
      * @param $outputFileExtension string
      */
     public function setOutputFileExtension($outputFileExtension)
     {
         $this->config['output_file_extension'] = $outputFileExtension;
+    }
+
+    public function setPdfToWord(){
+        $this->defaultOptions[] = '--infilter="writer_pdf_import"';
+        $this->setOutputFileExtension('doc');
     }
 
     public function buildCmd()
