@@ -27,23 +27,3 @@ var_dump($arr[1.1]);
 var_dump($arr[1.10]);
 var_dump($arr['2']);
 
-$arr = [
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-    'asdsada',
-];
-
-var_dump(array_chunk($arr,10));
-
