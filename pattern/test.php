@@ -15,3 +15,7 @@ echo $after_object.PHP_EOL;
 $object = 'hello 11 33 44';
 $after_object = preg_replace('/hello (\d(\d)) (\d*) (\d*)/','${0},${1},${2},${3}',$object);
 echo $after_object.PHP_EOL;
+
+$object = 'MtClassName';
+preg_match('/^(?!Mt).*/',$object,$res);
+var_dump($res);
