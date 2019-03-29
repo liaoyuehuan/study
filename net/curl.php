@@ -1,5 +1,5 @@
 <?php
-$ch = curl_init('https://ebg.conzhu.net/hello.php');
+$ch = curl_init('https://ebg.conzhu.net/index.php');
 curl_setopt_array($ch, [
 
     # 证书校验设置
@@ -74,4 +74,6 @@ $curlInfo = curl_getinfo($ch);
     'speed_upload' => 415 // 平均上传速度
 ];
 
+$httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+var_dump($httpCode);
 

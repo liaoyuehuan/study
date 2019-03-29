@@ -23,6 +23,7 @@ function testFSockStream()
 
     //fsockopen();
     //pfsockopen();
+    //stream_set_blocking() 不支持windows
     //stream_get_meta_data();
     //socket_get_status();
     //stream_get_contents()
@@ -31,12 +32,19 @@ function testFSockStream()
     //$resource = fsockopen('47.107.37.69', 9501, $errno, $errstr);
     //长连接
 
-    $resource = pfsockopen('47.107.37.69', 9501, $errno, $errstr);
+    // http
+    $host = '47.107.37.69';
+    $port = 9501;
+    // https
+    // $host = 'ssl://www.baidu.com';
+    // $port = 443;
+
+    $resource = pfsockopen($host, $port, $errno, $errstr);
     if (false === $resource) {
         echo "$errstr ($errno)\n";
     } else {
         $http_transport = "GET / HTTP/1.1\r\n";
-        $http_transport .= "Host: 47.107.37.69:9501\r\n";
+        $http_transport .= "Host: {$host}:{$port}\r\n";
         $http_transport .= "User-Agent: Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/63.0\r\n";
         $http_transport .= "Connection: keep-alive\r\n\r\n";
 
@@ -168,5 +176,5 @@ function testSocketListen()
 }
 
 
-testSocketConnect();
+testFSockStream();
 
