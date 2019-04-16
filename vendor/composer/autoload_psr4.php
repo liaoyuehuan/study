@@ -11,6 +11,7 @@ return array(
     'Sop\\CryptoEncoding\\' => array($vendorDir . '/sop/crypto-encoding/lib/CryptoEncoding'),
     'ParagonIE\\EasyRSA\\' => array($vendorDir . '/paragonie/easyrsa/src'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
+    'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
     'Defuse\\Crypto\\' => array($vendorDir . '/defuse/php-encryption/src'),
     'ASN1\\' => array($vendorDir . '/sop/asn1/lib/ASN1'),
 );
