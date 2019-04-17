@@ -27,6 +27,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
             'ParagonIE\\EasyRSA\\' => 18,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
+        'O' => 
+        array (
+            'OSS\\' => 4,
+        ),
         'D' => 
         array (
             'Defuse\\Crypto\\' => 14,
@@ -57,6 +61,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+        ),
+        'OSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
         ),
         'Defuse\\Crypto\\' => 
         array (
