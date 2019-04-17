@@ -30,8 +30,8 @@
 
     Object.defineProperty(obj, 'v_define_property', {
         // 随便设置一个属性，set和get都用不了
-        // enumerable: false,
-        // configurable: false,
+        // enumerable: false, // 属性是否可以在 for...in 循环和 Object.keys() 中被枚举。
+        // configurable: false, // configurable特性表示对象的属性是否可以被删除，以及除value和writable特性外的其他特性是否可以被修改。
         // writable: true,
         // value: "static",
         set: function (value) {
