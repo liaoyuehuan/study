@@ -2119,6 +2119,7 @@ class OssClient
 
         if (isset($options[self::OSS_CONTENT])) {
             $request->set_body($options[self::OSS_CONTENT]);
+           
             if ($headers[self::OSS_CONTENT_TYPE] === 'application/x-www-form-urlencoded') {
                 $headers[self::OSS_CONTENT_TYPE] = 'application/octet-stream';
             }
@@ -2180,7 +2181,7 @@ class OssClient
         if ($this->connectTimeout !== 0) {
             $request->connect_timeout = $this->connectTimeout;
         }
-
+      
         try {
             $request->send_request();
         } catch (RequestCore_Exception $e) {

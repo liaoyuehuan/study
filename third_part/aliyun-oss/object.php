@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-class TestObject {
+class TestObject
+{
     private $accessKeyId = 'LTAIvOPOcZB8C2a0';
 
     private $accessKeySeret = '1d4wXAmaPU9KSoDJZQCcAgI88TW83Q';
@@ -13,30 +14,54 @@ class TestObject {
     /**
      * @return \OSS\OssClient
      */
-    function newOssClient(){
-        return new \OSS\OssClient($this->accessKeyId,$this->accessKeySeret,$this->endPoint);
+    function newOssClient()
+    {
+        return new \OSS\OssClient($this->accessKeyId, $this->accessKeySeret, $this->endPoint);
     }
 
-    function testPutObject(){
+    function testPutObject()
+    {
         $ossClient = $this->newOssClient();
-        $res = $ossClient->putObject($this->testBucket,'test/hello.txt','hello oss');
+        $res = $ossClient->putObject($this->testBucket, 'test/hello.txt', 'hello oss');
         var_dump($res);
     }
 
-    function testCopyObject(){
+    function testCopyObject()
+    {
         $ossClient = $this->newOssClient();
-        $res = $ossClient->copyObject($this->testBucket,'test/hello.txt',$this->testBucket,'test/hello-copy.txt');
+        $res = $ossClient->copyObject($this->testBucket, 'test/hello.txt', $this->testBucket, 'test/hello-copy.txt');
         var_dump($res);
     }
 
-    function testGetObject(){
+    function testGetObject()
+    {
         $ossClient = $this->newOssClient();
         $options = [
-            \OSS\OssClient::OSS_FILE_DOWNLOAD => __DIR__.'/files/test-download.txt' //设置时，内容会保存在指定文件中
+            \OSS\OssClient::OSS_FILE_DOWNLOAD => __DIR__ . '/files/test-download.txt' //设置时，内容会保存在指定文件中
         ];
-        $res = $ossClient->getObject($this->testBucket,'test/hello.txt',$options);
+        $res = $ossClient->getObject($this->testBucket, 'test/hello.txt', $options);
+        var_dump($res);
+    }
+
+    function testUploadFile()
+    {
+        $ossClient = $this->newOssClient();
+        $res = $ossClient->uploadFile($this->testBucket, 'test/test-upload.txx', 'D:\360安全浏览器下载\itextpdf-5.1.1-javadoc.jar.zip');
+        var_dump($res);
+    }
+
+    function testEncryption()
+    {
+        $ossClient = $this->newOssClient();
+        $options = [
+            \OSS\OssClient::OSS_HEADERS => [
+                'x-oss-server-side-encryption' => 'AES256'
+            ]
+        ];
+        $res = $ossClient->putObject($this->testBucket, 'test/test-encryption.txt', 'encrypt data', $options);
         var_dump($res);
     }
 }
+
 $obj = new TestObject();
-$obj->testPutObject();
+$obj->testEncryption();

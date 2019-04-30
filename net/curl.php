@@ -44,10 +44,16 @@ function testCurl()
             'a' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             'b' => 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             'c' => 'ccccccccccccccccccccccccccccc'
-        ]
+        ],
 
+        # body
+        # CURLOPT_NOBODY => true, // 不返回响应体
+        # CURLOPT_RANGE => '1-100', // 设置响应体数据范围
+
+        # 设置basic验证
+        # CURLOPT_HTTPAUTH => CURLAUTH_ANY,
+        # CURLOPT_USERPWD => $this->username . ':' . $this->password
     ]);
-
     $response = curl_exec($ch);
 
     $curlInfo = curl_getinfo($ch);
@@ -99,17 +105,22 @@ function getUrlHeader()
         ], //设置请求头信息
 
         CURLOPT_RETURNTRANSFER => true,
+
+//        CURLOPT_CUSTOMREQUEST => 'HEAD',
+        CURLOPT_NOBODY => true
     ]);
     $response = curl_exec($ch);
+
     $start = strpos($response, "\r\n") + 2;
     $end = strpos($response, "\r\n\r\n");
     $header = substr($response, $start, $end - $start);
     $headers = [];
-    array_walk(explode("\r\n", $header), function ($value) use (&$headers) {
+    $headerList = explode("\r\n", $header);
+    array_walk($headerList, function ($value) use (&$headers) {
         $headerArr = explode(': ', $value);
         $headers[$headerArr[0]] = $headerArr[1];
     });
-    var_dump($headers);
+
     $contentSize = substr($headers['Content-Range'], strpos($headers['Content-Range'], '/') + 1);
 }
 
