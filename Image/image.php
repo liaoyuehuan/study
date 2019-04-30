@@ -1,5 +1,5 @@
 <?php
-$pngFile = __DIR__.'/images/2.jpg';
+$pngFile = __DIR__.'/images/no_img.doc';
 $pngData = file_get_contents($pngFile);
 //getimagesize($pngFile) =  getimagesizefromstring($pngData)
 /**
@@ -16,7 +16,6 @@ $imageInfo = getimagesize($pngFile);
     'mime' => 'iamge/png', //图像的mime信息
     'channels' => 3 // jpg,gif有 ，3 => RGB picture ,4 => CMYK picture  GIF always uses 3 channels per pixel,
 ];
-
 $extension = image_type_to_extension(IMAGETYPE_GIF);
 //1 => .gif , 2 => jpg ,3 => png ...
 $mime_type = image_type_to_mime_type(IMAGETYPE_GIF);
@@ -25,6 +24,7 @@ $mime_type = image_type_to_mime_type(IMAGETYPE_GIF);
 /**
  * exif
  */
+
 $image_type = exif_imagetype($pngFile); //需要打开 exif 扩展
 // 1   image type
 
