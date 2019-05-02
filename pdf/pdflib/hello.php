@@ -25,7 +25,14 @@ try {
         echo 'success';
     } else {
         $buf = PDF_get_buffer($p); // $filename empty
-        var_dump($buf);
+//        var_dump($buf);
+        $last = 0;
+        for ($i = 1; $i < strlen($buf); $i++) {
+            if ($buf{$i} === 'w') {
+                echo $i . ' : ' . ($i - $last) . ' : ' . $buf{$i} . PHP_EOL;
+                $last = $i;
+            }
+        }
     }
     PDF_delete($p);
 } catch (PDFLibException $e) {

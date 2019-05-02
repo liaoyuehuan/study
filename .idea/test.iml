@@ -16,5 +16,35 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/aliyuncs/oss-sdk-php" />
+          <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/defuse/php-encryption" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/constant_time_encoding" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/easyrsa" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
+          <root url="file://$MODULE_DIR$/vendor/phpseclib/phpseclib" />
+          <root url="file://$MODULE_DIR$/vendor/sarciszewski/php-future" />
+          <root url="file://$MODULE_DIR$/vendor/sop/asn1" />
+          <root url="file://$MODULE_DIR$/vendor/sop/crypto-encoding" />
+          <root url="file://$MODULE_DIR$/vendor/sop/crypto-types" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/aliyuncs/oss-sdk-php" />
+          <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/defuse/php-encryption" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/constant_time_encoding" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/easyrsa" />
+          <root url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
+          <root url="file://$MODULE_DIR$/vendor/phpseclib/phpseclib" />
+          <root url="file://$MODULE_DIR$/vendor/sarciszewski/php-future" />
+          <root url="file://$MODULE_DIR$/vendor/sop/asn1" />
+          <root url="file://$MODULE_DIR$/vendor/sop/crypto-encoding" />
+          <root url="file://$MODULE_DIR$/vendor/sop/crypto-types" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Sop\\CryptoTypes\\' => array($vendorDir . '/sop/crypto-types/lib/CryptoTypes'),
     'Sop\\CryptoEncoding\\' => array($vendorDir . '/sop/crypto-encoding/lib/CryptoEncoding'),
