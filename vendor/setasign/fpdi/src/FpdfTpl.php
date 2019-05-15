@@ -16,7 +16,7 @@ namespace setasign\Fpdi;
  *
  * @package setasign\Fpdi
  */
-class FpdfTpl extends \FPDF
+class FpdfTpl extends \PDF_Chinese
 {
     use FpdfTplTrait;
 }
