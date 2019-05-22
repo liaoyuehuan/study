@@ -12,8 +12,6 @@ $pdf->setSourceFile($sourceFile);
 $tplIndex = $pdf->importPage(1);
 // now write some text above the imported page
 $pdf->useTemplate($tplIndex);
-$pdf->SetFont('Helvetica');
-
 $pdf->SetTextColor(255, 0, 0);
 $pdf->SetXY(50, 50);
 $pdf->Write(0, 'This is just a simple text');
@@ -69,6 +67,7 @@ function ($x,$y,$txt,$family = 'simhei',$style = '',$size = 0) use ($pdf){
     }
 }
 
-$buf = $pdf->Output('F', __DIR__ . '/files/combine.pdf');
+$buf = $pdf->Output('S', __DIR__ . '/files/combine.pdf');
+echo $buf;
 //file_put_contents(__DIR__ . '/files/combine.pdf', $buf);
 
