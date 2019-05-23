@@ -53,6 +53,9 @@ function testCurl()
         # 设置basic验证
         # CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         # CURLOPT_USERPWD => $this->username . ':' . $this->password
+
+        # 允许重定向
+        CURLOPT_FOLLOWLOCATION => true
     ]);
     $response = curl_exec($ch);
 
