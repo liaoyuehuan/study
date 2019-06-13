@@ -13,6 +13,7 @@ ini_set('error_log','D:/php_error.log');
     echo 'exception : ' . $e->getMessage() . PHP_EOL;
 });
 
+# 错误等级 $code https://www.php.net/manual/zh/errorfunc.constants.php
 set_error_handler(function ($code, $message, $file = '', $line = 0) {
     echo 'error: ' . $code . ' ' . $message . '' . $file . ' line:' . $line . PHP_EOL;
 });*/
