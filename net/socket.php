@@ -156,7 +156,6 @@ function testSocketListen()
         panicSocketErr($resource);
     };
 
-
     echo 'start listening ...' . PHP_EOL;
     if (false === socket_listen($resource)) {
         panicSocketErr($resource);

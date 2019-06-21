@@ -12,7 +12,7 @@ class MyClass
 
     public function hello()
     {
-        echo 'hello'.PHP_EOL;
+        echo 'hello' . PHP_EOL;
     }
 }
 
