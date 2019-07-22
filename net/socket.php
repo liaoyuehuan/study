@@ -66,7 +66,7 @@ function testFSockStream()
             }
             while (!feof($resource)) {
                 $length = 8192;
-                $buf = fread($resource,8192);;
+                $buf = fread($resource, 8192);;
                 $response .= $buf;
                 if (strlen($buf) < $length) {
                     break;
@@ -74,13 +74,101 @@ function testFSockStream()
             }
             //一次读取所有内容
             //$response = stream_get_contents($resource);
-            echo (time() - $start).'s'.PHP_EOL;
+            echo (time() - $start) . 's' . PHP_EOL;
             echo "header:\r\n" . $header;
             echo "response:\r\n" . $response . PHP_EOL;
         }
     }
 }
 
+function testFSockStreamWithFile()
+{
+
+    //fsockopen();
+    //pfsockopen();
+    //stream_set_blocking() 不支持windows
+    //stream_get_meta_data();
+    //socket_get_status();
+    //stream_get_contents()
+
+    //短连接
+    //$resource = fsockopen('47.107.37.69', 9501, $errno, $errstr);
+    //长连接
+
+    // http
+    $host = '127.0.0.1';
+    $port = '10001';
+    // https
+    // $host = 'ssl://www.baidu.com';
+    // $port = 443;
+
+    $resource = fsockopen($host, $port, $errno, $errstr);
+    if (false === $resource) {
+        echo "$errstr ($errno)\n";
+    } else {
+        $boundary = '112001637011810';
+        $boundaryValue = "---------------------------{$boundary}";
+        $file = __DIR__ . '/bb.docx';
+
+        $http_transport = "POST /public/index/file/postFile HTTP/1.1\r\n";
+        $http_transport .= "Host: {$host}:{$port}\r\n";
+        $http_transport .= "User-Agent: Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/63.0\r\n";
+        $http_transport .= "Content-Type: multipart/form-data;boundary={$boundaryValue}\r\n";
+
+
+        $fileData = file_get_contents($file);
+        $fileBody = "--{$boundaryValue}\r\n"
+            . "Content-Disposition: form-data; name=\"file\"; filename=\"aaa.docx\"\r\n"
+            . "Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document\r\n\r\n"
+            . "{$fileData}\r\n";
+        $body = $fileBody;
+        $body .= "--{$boundaryValue}--";
+        $length = strlen($body);
+        $http_transport .= "Content-Length: {$length}\r\n";
+        $http_transport .= "Connection: keep-alive\r\n\r\n";
+        $http_transport .= $body;
+        file_put_contents(__DIR__ . '/post.txt', $http_transport);
+        stream_set_blocking($resource, true);
+        stream_set_timeout($resource, 3);
+
+//        for ($i = 0, $chunkSize = 8192; $i < strlen($http_transport); $i += $chunkSize) {
+//            $end = $i + $chunkSize;
+//            if ($end > strlen($http_transport)) {
+//                $end = strlen($http_transport);
+//            }
+//            $buffer = substr($http_transport, $i, $end - $i);
+//            $result = fwrite($resource, $buffer);
+//        }
+        $result = fwrite($resource, $http_transport);
+        if (!$result) {
+            panicSocketErr($resource);
+        } else {
+            $response = '';
+            $header = '';
+            $start = time();
+            while (!feof($resource)) {
+                $buf = fgets($resource);;
+                if ($buf == "\r\n") {
+                    break;
+                }
+                $header .= $buf;
+            }
+            while (!feof($resource)) {
+                $length = 8192;
+                $buf = fread($resource, 8192);;
+                $response .= $buf;
+                if (strlen($buf) < $length) {
+                    break;
+                }
+            }
+            //一次读取所有内容
+            //$response = stream_get_contents($resource);
+            echo (time() - $start) . 's' . PHP_EOL;
+            echo "header:\r\n" . $header;
+            echo "response:\r\n" . $response . PHP_EOL;
+        }
+    }
+}
 
 
 ############################    socket      #######################
@@ -133,7 +221,7 @@ function testSocketConnect()
     socket_write($resource, $request, strlen($request));
     $response = '';
     $length = 8192;
-    while ($buf = socket_read($resource, 8192) ){
+    while ($buf = socket_read($resource, 8192)) {
         $response .= $buf;
         if ($length > strlen($buf)) {
             break;
@@ -175,5 +263,5 @@ function testSocketListen()
 }
 
 
-testFSockStream();
+testFSockStreamWithFile();
 
