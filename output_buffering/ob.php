@@ -37,7 +37,7 @@ function testObImplicitFlush()
     ob_end_flush();
 }
 
-testObImplicitFlush();
+testObStart();
 
 
 
