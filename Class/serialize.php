@@ -11,5 +11,3 @@ serialize($reflection_f);
 var_dump($reflection_f->getParameters());   //获取 $param1, $param2
 $g_clo = $reflection_f->getClosure();       //获取 closure
 var_dump(call_user_func_array($g_clo,[1,2])); //执行closure
-
-
