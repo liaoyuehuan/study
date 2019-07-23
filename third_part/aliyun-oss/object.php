@@ -13,6 +13,7 @@ class TestObject
 
     /**
      * @return \OSS\OssClient
+     * @throws \OSS\Core\OssException
      */
     function newOssClient()
     {
@@ -61,7 +62,17 @@ class TestObject
         $res = $ossClient->putObject($this->testBucket, 'test/test-encryption.txt', 'encrypt data', $options);
         var_dump($res);
     }
+
+    function testUploadUrlResource(){
+        $ossClient = $this->newOssClient();
+        $url = 'http://218.85.80.181:12300/BaseSystemMgrWeb/ebidfile/getFileBySn/d18b3432-db0a-4157-9fea-dc11e8d20b24.xhtml';
+        $resource = fopen($url,'r');
+        require_once __DIR__.'/../../net/CurlUtils.php';
+        $res = $ossClient->uploadResource($this->testBucket, 'test/test-resource.pdf', $resource);
+        fclose($resource);
+        var_dump($res);
+    }
 }
 
 $obj = new TestObject();
-$obj->testEncryption();
+$obj->testUploadUrlResource();

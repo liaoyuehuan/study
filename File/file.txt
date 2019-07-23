@@ -1,0 +1,58 @@
+CREATE TABLE `cz_enews_sub_member` (
+  `sub_user_id` int(10) unsigned NOT NULL comment '子账户用户ID' ,
+	`parent_user_id`int(10) unsigned NOT NULL comment '主账户用户ID' ,
+  `username` char(20) NOT NULL DEFAULT '' comment '子账户用户名' ,
+  `password` char(32) NOT NULL DEFAULT '',
+  `rnd` char(20) NOT NULL DEFAULT '',
+  `email` char(50) NOT NULL DEFAULT '',
+  `registertime` int(10) unsigned NOT NULL DEFAULT '0',
+  `groupid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `userfen` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `userdate` int(10) unsigned NOT NULL DEFAULT '0',
+  `money` float(11,2) NOT NULL DEFAULT '0.00',
+  `zgroupid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `havemsg` tinyint(1) NOT NULL DEFAULT '0',
+  `checked` tinyint(1) NOT NULL DEFAULT '0',
+  `salt` char(8) NOT NULL DEFAULT '',
+  `userkey` char(12) NOT NULL DEFAULT '',
+  `rndf` char(50) NOT NULL,
+  PRIMARY KEY (`sub_user_id`) USING BTREE,
+  UNIQUE KEY `username` (`username`) USING hash,
+  KEY `groupid` (`groupid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=898 DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `cz_enews_sub_memberadd` (
+	`sub_user_id` int(10) unsigned NOT NULL comment '子账户用户ID' ,
+  `parent_user_id` int(10) unsigned NOT NULL DEFAULT '0' comment '主账号ID',
+  `truename` varchar(20) NOT NULL DEFAULT '',
+  `oicq` varchar(25) NOT NULL DEFAULT '',
+  `msn` varchar(120) NOT NULL DEFAULT '',
+  `mycall` varchar(30) NOT NULL DEFAULT '',
+  `phone` varchar(30) NOT NULL DEFAULT '',
+  `address` varchar(255) NOT NULL DEFAULT '',
+  `zip` varchar(8) NOT NULL DEFAULT '',
+  `spacestyleid` smallint(6) NOT NULL DEFAULT '0',
+  `homepage` varchar(200) NOT NULL DEFAULT '',
+  `saytext` text NOT NULL,
+  `company` varchar(255) NOT NULL DEFAULT '',
+  `fax` varchar(30) NOT NULL DEFAULT '',
+  `userpic` varchar(200) NOT NULL DEFAULT '',
+  `spacename` varchar(255) NOT NULL DEFAULT '',
+  `spacegg` text NOT NULL,
+  `viewstats` int(11) NOT NULL DEFAULT '0',
+  `regip` varchar(20) NOT NULL DEFAULT '',
+  `lasttime` int(10) unsigned NOT NULL DEFAULT '0',
+  `lastlogintime` int(10) unsigned NOT NULL DEFAULT '0',
+  `lastip` varchar(20) NOT NULL DEFAULT '',
+  `loginnum` int(10) unsigned NOT NULL DEFAULT '0',
+  `regipport` varchar(6) NOT NULL DEFAULT '',
+  `lastipport` varchar(6) NOT NULL DEFAULT '',
+  `sex` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`sub_user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+

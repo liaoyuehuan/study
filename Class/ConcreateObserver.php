@@ -10,7 +10,6 @@ class ConcreteObserver  implements SplObserver
 {
     public function update(SplSubject $subject)
     {
-
     }
 
 }

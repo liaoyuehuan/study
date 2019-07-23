@@ -15,7 +15,7 @@ class CurlUtils
             # 证书校验设置
             CURLOPT_SSL_VERIFYPEER => false, // 取消证书校验，要验证时设置  CURLOPT_CAINFO 或 CURLOPT_CAPATH
             CURLOPT_SSL_VERIFYHOST => false, // 检查证书的域名时候和你访问的域名一致（即：证书的"common name"）
-            CURLOPT_RANGE => '0-0',
+//            CURLOPT_RANGE => '0-1',
             # 头部信息设置
 
             CURLOPT_HEADER => true, // 响应时输出头部信息
@@ -24,6 +24,8 @@ class CurlUtils
             ], //设置请求头信息
 
             CURLOPT_RETURNTRANSFER => true,
+
+//            CURLOPT_NOBODY => false,
         ]);
         $response = curl_exec($ch);
         if (curl_errno($ch)) {
@@ -33,14 +35,15 @@ class CurlUtils
         $end = strpos($response, "\r\n\r\n");
         $header = substr($response, $start, $end - $start);
         $headers = [];
-        array_walk(explode("\r\n", $header), function ($value) use (&$headers) {
+        $headerArr = explode("\r\n", $header);
+        array_walk($headerArr, function ($value) use (&$headers) {
             $headerArr = explode(': ', $value);
             $headers[$headerArr[0]] = $headerArr[1];
         });
         return $headers;
     }
 
-    public function getContentSizeFromHeader($header)
+    public static function getContentSizeFromHeader($header)
     {
         if (false === isset($header['Content-Range'])) {
             return false;
@@ -49,10 +52,13 @@ class CurlUtils
         return $contentSize;
     }
 
-    public function getExtensionFromHeader($header)
+    public static function getExtensionFromHeader($header)
     {
         if (false === isset($header['Content-Type'])) {
             return false;
+        }
+        if ($pos = strpos($header['Content-Type'], ';')) {
+            $header['Content-Type'] = substr($header['Content-Type'], 0, $pos);
         }
         $mimeTypeToExtension = [
             'application/msword' => 'doc',
@@ -65,7 +71,8 @@ class CurlUtils
             'image/png' => 'png',
             'image/jpeg' => 'jpeg',
             'image/jpg' => 'jpg',
-            'image/gif' => 'gif'
+            'image/gif' => 'gif',
+            'application/octet-stream' => 'stream'
         ];
         if (false === isset($mimeTypeToExtension[$header['Content-Type']])) {
             return false;
@@ -73,7 +80,13 @@ class CurlUtils
         return $mimeTypeToExtension[$header['Content-Type']];
     }
 
-    function multiDownload($url, $size, $chunkSize, callable $afterExecAll)
+    public static function getExtensionFromUrl($url)
+    {
+        $urlInfo = pathinfo($url);
+        return isset($urlInfo['extension']) ? $urlInfo['extension'] : null;
+    }
+
+    public static function multiDownload($url, $size, $chunkSize, callable $afterExecAll)
     {
         $callFunction = function ($pos, $endPos) use ($url, $chunkSize, $afterExecAll) {
             $chs = [];
@@ -133,7 +146,6 @@ class CurlUtils
                             throw new Exception('buffer not complete');
                         }
                     } catch (Exception $e) {
-                        var_dump($e->getMessage());
                         $failedCount++;
                         if ($failedCount <= $maxAllowFailedCount) {
                             $failedCount++;

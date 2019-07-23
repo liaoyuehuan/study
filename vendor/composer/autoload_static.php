@@ -10,6 +10,7 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '3a163f06e55e497e0acc65ba132a7a76' => __DIR__ . '/..' . '/sarciszewski/php-future/autoload.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -23,11 +24,15 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php56\\' => 23,
+            'SuperClosure\\' => 13,
             'Sop\\CryptoTypes\\' => 16,
             'Sop\\CryptoEncoding\\' => 19,
         ),
         'P' => 
         array (
+            'PhpParser\\' => 10,
             'ParagonIE\\EasyRSA\\' => 18,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
@@ -54,6 +59,18 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'Symfony\\Polyfill\\Util\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
+        ),
+        'Symfony\\Polyfill\\Php56\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
+        ),
+        'SuperClosure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jeremeamia/superclosure/src',
+        ),
         'Sop\\CryptoTypes\\' => 
         array (
             0 => __DIR__ . '/..' . '/sop/crypto-types/lib/CryptoTypes',
@@ -61,6 +78,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'Sop\\CryptoEncoding\\' => 
         array (
             0 => __DIR__ . '/..' . '/sop/crypto-encoding/lib/CryptoEncoding',
+        ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
         'ParagonIE\\EasyRSA\\' => 
         array (

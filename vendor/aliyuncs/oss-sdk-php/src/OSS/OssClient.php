@@ -1182,6 +1182,29 @@ class OssClient
         return $result->getData();
     }
 
+
+    /**
+     * @param string $bucket bucket名称
+     * @param string $object object名称
+     * @param resource $resource 文件资源
+     * @param null $options
+     * @return null
+     * @throws OssException
+     */
+    public function uploadResource($bucket, $object, $resource, $options = NULL){
+        $this->precheckCommon($bucket, $object, $options);
+        $options[self::OSS_FILE_UPLOAD] = $resource;
+        if (!isset($options[self::OSS_CONTENT_TYPE])) {
+            $options[self::OSS_CONTENT_TYPE] = $this->getMimeType($object);
+        }
+        $options[self::OSS_METHOD] = self::OSS_HTTP_PUT;
+        $options[self::OSS_BUCKET] = $bucket;
+        $options[self::OSS_OBJECT] = $object;
+        $response = $this->auth($options);
+        $result = new PutSetDeleteResult($response);
+        return $result->getData();
+    }
+
     /**
      * 追加上传内存中的内容
      *
@@ -2185,6 +2208,8 @@ class OssClient
         try {
             $request->send_request();
         } catch (RequestCore_Exception $e) {
+            echo $e->getFile().':'.$e->getLine();
+
             throw(new OssException('RequestCoreException: ' . $e->getMessage()));
         }
         $response_header = $request->get_response_header();
