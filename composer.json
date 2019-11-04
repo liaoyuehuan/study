@@ -3,7 +3,8 @@
         "aliyuncs/oss-sdk-php": "^2.3",
         "setasign/fpdi": "^2.2",
         "nikic/php-parser": "^4.2",
-        "jeremeamia/superclosure": "^2.4"
+        "jeremeamia/superclosure": "^2.4",
+        "phpoffice/phpword": "^0.17.0"
     },
     "repositories": {
         "packagist": {

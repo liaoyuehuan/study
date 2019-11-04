@@ -2,8 +2,20 @@
 
 function testCurl()
 {
-    $ch = curl_init('https://ebg.conzhu.net/index.php');
+    $url = 'https://ebg.conzhu.net:443/index.php';
+    $ch = curl_init();
+    # 支持参数中文操作
+    $urlInfo = parse_url($url);
+    !isset($urlInfo['host']) &&  $urlInfo['host'] = 80;
+    $requestUrl = "{$urlInfo['scheme']}://{$urlInfo['host']}:{$urlInfo['port']}{$urlInfo['path']}";
+    if (!empty($urlInfo['query'])) {
+        parse_str($urlInfo['query'], $paramArr);
+        $requestUrl .= '?' . http_build_query($paramArr);
+    }
+
     curl_setopt_array($ch, [
+
+        CURLOPT_URL => $requestUrl,
 
         # 证书校验设置
         CURLOPT_SSL_VERIFYPEER => false, // 取消证书校验，要验证时设置  CURLOPT_CAINFO 或 CURLOPT_CAPATH
@@ -54,13 +66,20 @@ function testCurl()
         # CURLOPT_HTTPAUTH => CURLAUTH_ANY,
         # CURLOPT_USERPWD => $this->username . ':' . $this->password
 
+        # 设置证书
+        CURLOPT_SSLCERTTYPE => 'PEM',
+        CURLOPT_SSLCERT => __DIR__ . '/cert/apiclient_cert.pem',
+        CURLOPT_SSLKEYTYPE => 'PEM',
+        CURLOPT_SSLKEY => __DIR__ . '/cert/apiclient_key.pem',
+
         # 允许重定向
         CURLOPT_FOLLOWLOCATION => true
     ]);
     $response = curl_exec($ch);
 
-    $curlInfo = curl_getinfo($ch);
 
+    $curlInfo = curl_getinfo($ch);
+    var_dump($curlInfo);
 # info 重要参数介绍
     [
         # 通用
@@ -265,4 +284,4 @@ function curlMultiDownload($url, $size, $chunkSize, callable $afterExecAll)
     }
 }
 
-getUrlHeader();
+testCurl();

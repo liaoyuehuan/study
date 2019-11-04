@@ -1,5 +1,15 @@
 <?php
 
+
+$aa = ['asdasd' => 'asdasdas'];
+
+$bb = &$aa;
+$cc = &$bb;
+var_dump($cc['asdasd']);exit();
+
+
+exit(json_encode($data, JSON_UNESCAPED_UNICODE));
+
 //算金额时，取分并且向上取整
 $a = "1111.11";  //但是111.11没有这个问题
 $b = (float)$a;
@@ -19,10 +29,12 @@ $rs = chunk_split($str, 2, '#');
 var_dump($rs);
 
 $arr = [
-   1.1 => 'aaa',
+    1.1 => 'aaa',
     2 => 'bbb'
 ];
 var_dump($arr['1.1']);
 var_dump($arr[1.1]);
 var_dump($arr[1.10]);
 var_dump($arr['2']);
+
+

@@ -22,6 +22,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             'phpseclib\\' => 10,
         ),
+        'Z' => 
+        array (
+            'Zend\\Escaper\\' => 13,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
@@ -33,6 +37,8 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'P' => 
         array (
             'PhpParser\\' => 10,
+            'PhpOffice\\PhpWord\\' => 18,
+            'PhpOffice\\Common\\' => 17,
             'ParagonIE\\EasyRSA\\' => 18,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
@@ -59,6 +65,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'Zend\\Escaper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-escaper/src',
+        ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
@@ -83,6 +93,14 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PhpOffice\\PhpWord\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',
+        ),
+        'PhpOffice\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/common/src/Common',
+        ),
         'ParagonIE\\EasyRSA\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/easyrsa/src',
@@ -105,11 +123,16 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         ),
     );
 
+    public static $classMap = array (
+        'PclZip' => __DIR__ . '/..' . '/pclzip/pclzip/pclzip.lib.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4::$classMap;
 
         }, null, ClassLoader::class);
     }

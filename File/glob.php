@@ -2,7 +2,7 @@
 
 $scam_path = './';
 
-$files = glob('*'); //作用在当前目录下
+$files = glob('*'); //作用在当前目录下或指定目录如：D/aa/*.txt
 var_dump($files);
 $dir_iterator = new RecursiveDirectoryIterator(__DIR__ . '', FilesystemIterator::KEY_AS_FILENAME);
 
