@@ -30,8 +30,8 @@ function combineFile($dir, $outfile, $ext = 'buf')
     }
 }
 
-$outfile = 'D:\360安全浏览器下载\test.zip';
-$dir = 'D:/360安全浏览器下载/win10-ios/';
+$outfile = 'F:\game\win系统\win10-x64.zip';
+$dir = 'F:/game/win系统/win10-ios/';
 //splitFile($file, $chunkSize, $fileBaseName);
 combineFile($dir,$outfile);
 
