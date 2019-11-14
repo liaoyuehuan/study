@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../layui/layui.all.js"></script>
+    <script src="../../jq/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+<button id="time_countdown">倒计时</button>
+<div id="show_time_countdown"></div>
+
+<button id="time_ago">time_ago</button>
+<div id="show_time_ago"></div>
+
+<button id="to_date_string">to_date_string</button>
+<div id="show_to_date_string"></div>
+
+
+</body>
+<script>
+    layui.use(['util'], function () {
+        layui.util.fixbar({
+            bar1: true,
+            bar2: true,
+            css: {right: 100, bottom: 50},
+            click: function (type) {
+                console.log(type);
+                if (type == 'bar1') {
+                    layer.msg('我是bar1');
+                } else {
+                    layer.msg('我是bar2');
+                }
+            }
+        });
+
+        $("#time_countdown").click(function () {
+            showTimeCountdown();
+        });
+
+        function showTimeCountdown() {
+            var serverTime = (new Date()).getTime();
+            var endTime = serverTime + 10 * 1000;
+            console.log(serverTime, endTime);
+            layui.util.countdown(endTime, serverTime, function (date, serverTime, clearTimeoutId) {
+                console.log(date, serverTime);
+                // var str = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
+                var countdownStr = date[2] + '分' + date[3] + "秒"
+                $("#show_time_countdown").html(countdownStr)
+            });
+        }
+
+        $("#time_ago").click(function () {
+            showTimeAgo();
+        });
+
+        function showTimeAgo() {
+            // 如果在3分钟以内，返回：刚刚
+            // 如果在30天以内，返回：若干分钟前、若干小时前、若干天前，如：5分钟前
+            // 如果在30天以上，返回：日期字符，如：2017-01-01
+            var time = (new Date()).getTime() - 60 * 1000 * 2;
+            var timeAgoStr = layui.util.timeAgo(time);
+            $("#show_time_ago").html(timeAgoStr);
+        }
+
+        $("#to_date_string").click(function () {
+            showToDateString();
+        });
+
+        function showToDateString() {
+            var time = (new Date()).getTime();
+            var dateString = layui.util.toDateString(time, 'yyyy-MM-dd HH:mm:ss');
+            $("#show_to_date_string").html(dateString);
+        }
+    })
+</script>
+</html>
