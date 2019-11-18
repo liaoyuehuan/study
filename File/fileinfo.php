@@ -18,16 +18,3 @@ echo '8|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.txt',FILEINFO_MIME_ENCODI
 echo '9|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.txt',FILEINFO_CONTINUE) . PHP_EOL;; //
 echo '10|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.pdf',FILEINFO_PRESERVE_ATIME) . PHP_EOL; //t
 echo '11|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.pdf',FILEINFO_EXTENSION) . PHP_EOL; //t
-
-echo json_encode([
-    'TranType' => '9908',
-    'BusiType' => '0001',
-    'Version' => '20140728',
-    'MerId' => '739211907190001',
-//    'MerOrderNo' => '',
-//    'TranDate' => date('Ymd', $orderNoticeSeparateService['trade_time']),
-//    'TranTime' => date('His', $orderNoticeSeparateService['trade_time']),
-//    'OriOrderNo' => '',
-//    'OriTranDate' => '',
-//    'OrderAmt' => bcmul($order['real_pay'], 100)
-]);
