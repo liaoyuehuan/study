@@ -59,7 +59,7 @@ function testCurl()
         ],
 
         # body
-        # CURLOPT_NOBODY => true, // 不返回响应体
+        # CURLOPT_NOBODY => true, // 不返回响应体（注：可能会造成“Content-Range”不返回）
         # CURLOPT_RANGE => '1-100', // 设置响应体数据范围
 
         # 设置basic验证
@@ -71,9 +71,12 @@ function testCurl()
         CURLOPT_SSLCERT => __DIR__ . '/cert/apiclient_cert.pem',
         CURLOPT_SSLKEYTYPE => 'PEM',
         CURLOPT_SSLKEY => __DIR__ . '/cert/apiclient_key.pem',
-
+        
         # 允许重定向
-        CURLOPT_FOLLOWLOCATION => true
+        CURLOPT_FOLLOWLOCATION => true,
+
+        # 查看请求头
+        CURLOPT_VERBOSE => true
     ]);
     $response = curl_exec($ch);
 
