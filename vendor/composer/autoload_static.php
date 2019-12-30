@@ -50,6 +50,7 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpWord\\' => 18,
@@ -131,6 +132,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
         'Prophecy\\' => 
         array (

@@ -46,6 +46,9 @@ function testCurl()
 //    CURLOPT_POST => true,
 //    CURLOPT_POSTFIELDS => [
 //        'file' => new CURLFile('aa.png', 'image/png', 'test_file')
+        # 多文件上传
+//        'files[0]' => 'D:/32dd13da-547f-4c22-a343-e2d0e478d825_src(2).pdf',
+//        'files[2]' => 'D:/hg.pdf'
 //    ],
 
         CURLOPT_RETURNTRANSFER => true,

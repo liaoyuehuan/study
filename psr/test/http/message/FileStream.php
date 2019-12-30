@@ -29,6 +29,7 @@ class FileStream implements \Psr\Http\Message\StreamInterface
     public function detach()
     {
         $toFile = tempnam(sys_get_temp_dir(), 't_');
+        $this->close();
         if (copy($this->file, $toFile)) {
             return fopen($toFile, 'rb+');
         } else {
