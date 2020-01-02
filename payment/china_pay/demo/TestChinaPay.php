@@ -42,7 +42,10 @@ class TestChinaPay extends BaseChinaPay
         $param['OrderAmt'] = '100';
         $param['PayMemo'] = '附言';
         $param['MerResv'] = '商户私有域';
-        $param['TranReserved'] = json_encode(['data' => '交易扩展域']);
+        $param['TranReserved'] = json_encode([
+
+        ]);
+
         $router = '/CTITS/service/rest/forward/syn/000000000093/0/0/0/0/0';
         $responseData = $this->request($router, $param);
         return $responseData;
@@ -64,11 +67,13 @@ class TestChinaPay extends BaseChinaPay
     public function backendPayment()
     {
         $param = [
-            'MerOrderNo' => '1812519841100',
+            'MerOrderNo' => '1812519841888',
             'TranDate' => date("Ymd", time()),
             'TranTime' => date("His", time()),
             'OrderAmt' => bcmul(99.99, 100, 0),
-            'TranType' => '0001',
+            // 0005 => 小程序
+            // 0001 => 网页
+            'TranType' => '0005',
             'BusiType' => '0001',
             # 分账
             'SplitType' => '0001',
@@ -82,7 +87,10 @@ class TestChinaPay extends BaseChinaPay
             # 非必须字段
             'CommodityMsg' => '保函',
             'MerResv' => 'MerResv',
-//            'TranReserved' => json_encode(['xixi' => 'xixi']),
+            'TranReserved' => json_encode([
+                'MiniPayUrl' => 'http://127.0.0.1:8008',
+                'MiniPayFlag' => 1
+            ]),
             'PayTimeOut' => '10',
             'TimeStamp' => date('YmdHis'),
             'RemoteAddr' => '127.0.0.1',
@@ -153,7 +161,8 @@ class TestChinaPay extends BaseChinaPay
         return $responseData;
     }
 
-    public function noticeSeparate(){
+    public function noticeSeparate()
+    {
         $param['MerOrderNo'] = date('YmdHis');
         $param['TranDate'] = date('Ymd');
         $param['TranTime'] = date('His');
@@ -166,11 +175,48 @@ class TestChinaPay extends BaseChinaPay
         $responseData = $this->request($router, $param);
         return $responseData;
     }
+
+    public function testBgTransGet()
+    {
+        $param = [
+            'AccessType' => '0',
+            'MerOrderNo' => '18125198404770',
+            'TranDate' => date("Ymd", time()),
+            'TranTime' => date("His", time()),
+            'OrderAmt' => bcmul(99.99, 100, 0),
+            'TranType' => '0009',
+            'BusiType' => '0001',
+            'CurryNo' => 'CNY',
+            # 分账
+            'SplitType' => '0001',
+            'SplitMethod' => '1',
+            ## 分账方商户号^金额或比例;分账方商户号^金额或比,
+            ## 分张方一定是关联商户
+            'MerSplitMsg' => "000091906209146^80;000091906209147^20",
+
+            'MerBgUrl' => "https://127.0.0.1/e/allpay/chinapay/test_notify_url.php",
+
+            # 非必须字段
+            'CommodityMsg' => '保函',
+            'MerResv' => 'MerResv',
+//            'TranReserved' => json_encode(['xixi' => 'xixi']),
+            'PayTimeOut' => '10',
+            'TimeStamp' => date('YmdHis'),
+            'RemoteAddr' => '127.0.0.1',
+            'OrderReserved' => json_encode([
+                'OrderType' => '0001',
+//                'OrderValidTime' => date('YmdHis',time() + 10 * 60),
+                'qrPattern' => 'link'
+            ])
+        ];
+        $response = $this->request('https://bianmin-test.chinapay.com/momsMgr/bgTransGet', $param);
+        return $response;
+    }
 }
 
 try {
     $obj = new TestChinaPay();
-    var_dump($obj->noticeSeparate());
+    var_dump($obj->testBgTransGet());
 } catch (RuntimeException $e) {
     throw $e;
 }

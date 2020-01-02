@@ -66,17 +66,24 @@ abstract class BaseChinaPay
     protected function request($router, $param)
     {
         $postParam = $this->getPostParam($param);
-        $url = $this->gateway . $router;
+        if (strpos($router, 'http') === 0) {
+            $url = $router;
+        } else {
+            $url = $this->gateway . $router;
+        }
         # 请求
-        echo json_encode($postParam).PHP_EOL;
+        echo json_encode($postParam) . PHP_EOL;
         $response = $this->post($url, $postParam);
         if (empty($response)) {
             return false;
         }
         # 验签
-        echo json_encode($response).PHP_EOL;
+        echo $response . PHP_EOL;
         $data = $this->parseQueryString($response);
-        $this->verify($data);
+        echo json_encode($data) . PHP_EOL;
+        if ($data['respCode'] === '0000') {
+            $this->verify($data);
+        }
         return $data;
     }
 

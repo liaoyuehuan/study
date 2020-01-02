@@ -11,7 +11,6 @@ var_dump($result); //空数组
 $object = 'hello';
 $after_object = preg_replace('/hello/', '${0}', $object);
 echo $after_object . PHP_EOL;
-
 $object = 'hello 11 33 44';
 $after_object = preg_replace('/hello (\d(\d)) (\d*) (\d*)/', '${0},${1},${2},${3}', $object);
 echo $after_object . PHP_EOL;
@@ -38,3 +37,7 @@ $field_object = str_replace('_', '', lcfirst(ucwords($object, '_')));
 $object = '1/24 * *       *  * ';
 $res = preg_split('/\s/',$object,-1,PREG_SPLIT_NO_EMPTY);
 
+# 非获取匹配（反向否定）
+$object = "dasda'as\'das\"d";
+$res = preg_replace('/(?<!(\\\))\'/','\\\'',$object);
+var_dump($res);

@@ -17,3 +17,4 @@ echo '7|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.txt',FILEINFO_SYMLINK) . 
 echo '8|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.txt',FILEINFO_MIME_ENCODING) . PHP_EOL;; //utf-8
 echo '9|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.txt',FILEINFO_CONTINUE) . PHP_EOL;; //
 echo '10|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.pdf',FILEINFO_PRESERVE_ATIME) . PHP_EOL; //t
+echo '11|'.$fInfo->file(__DIR__ . '/fileinfo_files/test.pdf',FILEINFO_EXTENSION) . PHP_EOL; //t

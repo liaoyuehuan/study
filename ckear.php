@@ -1,13 +1,21 @@
 <?php
 
+;
 
 $aa = ['asdasd' => 'asdasdas'];
 
 $bb = &$aa;
 $cc = &$bb;
-var_dump($cc['asdasd']);exit();
+function spaceReplace($str)
+{
+    $str = trim($str, " \t\n\r\0\x0B");
+    $str = str_replace([' ', ' '], '', $str);
+    return $str;
+}
 
 
+var_dump(spaceReplace('3505 0164 7707 0000 0497'));
+exit();
 exit(json_encode($data, JSON_UNESCAPED_UNICODE));
 
 //算金额时，取分并且向上取整
@@ -36,5 +44,8 @@ var_dump($arr['1.1']);
 var_dump($arr[1.1]);
 var_dump($arr[1.10]);
 var_dump($arr['2']);
+
+
+
 
 

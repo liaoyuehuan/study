@@ -122,9 +122,24 @@ class Aes
     {
         return openssl_decrypt($cipherText, $this->cipherMethod, $this->key, 0, $this->iv);
     }
-
-
 }
+
+function certDerToPem($der){
+    $certB64 =base64_encode($der);
+    $encoded = chunk_split($certB64, 64, "\n");
+    $x509CertData =  "-----BEGIN CERTIFICATE-----\n$encoded-----END CERTIFICATE-----\n";
+    return $x509CertData;
+}
+
+function testParseX509()
+{
+    $cert = certDerToPem(base64_decode(file_get_contents(__DIR__ . '/ssl/sm2.cert')));
+    $res = openssl_x509_parse($cert);
+    var_dump($res);
+}
+
+testParseX509();
+exit();
 
 $key = 'ubnsdf';
 $aesObj = new Aes($key, 'aes-128-cbc', '0102030405060708');
@@ -137,7 +152,6 @@ $spendUsTime = $usEndTime - $usStartTime;
 echo 'cipher 纳秒:' . $spendUsTime . PHP_EOL; //平均花费25纳秒，数据量越大花费时间越多
 echo 'cipher text:' . $cipherText . PHP_EOL;
 echo 'plaint text:' . $plaintText . PHP_EOL;;
-
 
 /**
  * openssl sign

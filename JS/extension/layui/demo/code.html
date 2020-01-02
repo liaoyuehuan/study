@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../../jq/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="layui-code">
+    <ul>
+        <li>HTML将不会被解析</li>
+        <li>有木有感觉非常方便</li>
+    </ul>
+    <script>
+        !function () {
+            var a = 123;
+        }();
+    </script>
+</div>
+</body>
+<script>
+    layui.use(['code'], function () {
+        layui.code({
+            title: '代码区',
+            // 是否使用notepad++ 风格
+            // skin: 'notepad',
+            about: false,
+            encode: true
+        });
+    })
+</script>
+</html>

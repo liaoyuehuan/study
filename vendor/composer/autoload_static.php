@@ -7,12 +7,12 @@ namespace Composer\Autoload;
 class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '3a163f06e55e497e0acc65ba132a7a76' => __DIR__ . '/..' . '/sarciszewski/php-future/autoload.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -22,6 +22,7 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         ),
         'p' => 
         array (
+            'psr\\test\\' => 9,
             'phpseclib\\' => 10,
             'phpDocumentor\\Reflection\\' => 25,
         ),
@@ -48,6 +49,8 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         ),
         'P' => 
         array (
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpWord\\' => 18,
@@ -76,6 +79,10 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
         ),
+        'psr\\test\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/psr/test',
+        ),
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
@@ -83,8 +90,8 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Zend\\Escaper\\' => 
         array (
@@ -121,6 +128,14 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'Sop\\CryptoEncoding\\' => 
         array (
             0 => __DIR__ . '/..' . '/sop/crypto-encoding/lib/CryptoEncoding',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
         'Prophecy\\' => 
         array (
