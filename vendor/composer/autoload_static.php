@@ -62,6 +62,14 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         array (
             'OSS\\' => 4,
         ),
+        'M' => 
+        array (
+            'Mdanter\\Ecc\\' => 12,
+        ),
+        'F' => 
+        array (
+            'FG\\' => 3,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -164,6 +172,14 @@ class ComposerStaticInit248fcc4eac9254125b0b4a11450d69a4
         'OSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
+        ),
+        'Mdanter\\Ecc\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mdanter/ecc/src',
+        ),
+        'FG\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fgrosse/phpasn1/lib',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

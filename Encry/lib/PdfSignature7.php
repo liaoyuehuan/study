@@ -85,7 +85,7 @@ class PdfSignature
             }
             $this->pkcs7DetachedDerList[] = hex2bin($signature);
         }
-        file_put_contents(__DIR__.'/aa.pkcs7',$this->pkcs7DetachedDerList[0]);exit();
+        file_put_contents(__DIR__.'/aa.pkcs7',$this->pkcs7DetachedDerList[1]);exit();
     }
 
     /**

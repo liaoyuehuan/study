@@ -6,7 +6,8 @@
         "jeremeamia/superclosure": "^2.4",
         "phpoffice/phpword": "^0.17.0",
         "psr/http-message": "^1.0",
-        "psr/http-client": "^1.0"
+        "psr/http-client": "^1.0",
+        "mdanter/ecc": "^0.5.2"
     },
     "repositories": {
         "packagist": {

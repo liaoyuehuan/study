@@ -47,13 +47,17 @@ class SecssUtil
     }
 
     /**
-     * @param string $plainData
+     * @param $plainData
+     * @return string
      */
     public function encryptData($plainData)
     {
-
+        return '';
     }
 
+    /**
+     * @return string
+     */
     public function getEncValue()
     {
     }
@@ -65,6 +69,9 @@ class SecssUtil
     {
     }
 
+    /**
+     * @return  string
+     */
     public function getDecValue()
     {
     }

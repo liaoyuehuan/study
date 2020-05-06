@@ -182,7 +182,7 @@ function testTsa()
 }
 
 function testTsaVerify(){
-    $pkcs7File = __DIR__ . '/pdf/样函-投保保证保险保函.pdf';
+    $pkcs7File = __DIR__ . '/pdf/时间戳测试(2).pdf';
     $obj = new PdfSignature($pkcs7File);
     $success = $obj->atVerifyTsa(0);
     var_dump($success);

@@ -81,9 +81,7 @@ abstract class BaseChinaPay
         echo $response . PHP_EOL;
         $data = $this->parseQueryString($response);
         echo json_encode($data) . PHP_EOL;
-        if ($data['respCode'] === '0000') {
-            $this->verify($data);
-        }
+//        $this->verify($data);
         return $data;
     }
 

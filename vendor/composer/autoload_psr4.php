@@ -28,6 +28,8 @@ return array(
     'ParagonIE\\EasyRSA\\' => array($vendorDir . '/paragonie/easyrsa/src'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
+    'Mdanter\\Ecc\\' => array($vendorDir . '/mdanter/ecc/src'),
+    'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Defuse\\Crypto\\' => array($vendorDir . '/defuse/php-encryption/src'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),

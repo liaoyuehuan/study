@@ -129,7 +129,9 @@ function getUrlHeader()
 
         CURLOPT_HEADER => true, // 响应时输出头部信息
         CURLOPT_HTTPHEADER => [
-            ''
+            '',
+            # 数据超过1024字节时，会失败问题
+            'Expect:100-continue'
         ], //设置请求头信息
 
         CURLOPT_RETURNTRANSFER => true,
