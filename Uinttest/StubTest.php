@@ -10,9 +10,11 @@ namespace Uinttest;
 
 
 use PHPUnit\Framework\TestCase;
+use Uinttest\StubClass\AbstractClass;
 use Uinttest\StubClass\Observer;
 use Uinttest\StubClass\SomeThing;
 use Uinttest\StubClass\Subject;
+use Uinttest\StubClass\TestTrait;
 
 class StubTest extends TestCase
 {
@@ -142,5 +144,40 @@ class StubTest extends TestCase
 
     }
 
+    public function testProphecy()
+    {
+        $subject = new Subject();
+        /**
+         * @var $observe  Observer
+         */
+        $observe = $this->prophesize(Observer::class);
 
+        $observe->update("aa")->shouldBeCalled();
+
+        $subject->attach($observe->reveal());
+
+        $subject->doSomething('aa');
+    }
+
+    public function testTrait()
+    {
+        $mock = $this->getMockForTrait(TestTrait::class);
+//        $mock->expects($this->any())
+//            ->method('say')
+//        ->will($this->returnValue(1));
+
+        /**
+         * @var $mock TestTrait
+         */
+        $this->assertTrue($mock->say());
+    }
+
+    public function testAbstract(){
+        $mock = $this->getMockForAbstractClass(AbstractClass::class);
+        $mock->method('say')->willReturn(true);
+        /**
+         * @var $mock AbstractClass
+         */
+        $this->assertTrue($mock->say());
+    }
 }
