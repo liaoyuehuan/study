@@ -35,6 +35,8 @@ class CurveOidMapper
 
     const SECP_384R1_OID = '1.3.132.0.34';
 
+    const SM2 = '1.2.156.10197.1.301';
+
     /**
      * @var array
      */
@@ -49,6 +51,8 @@ class CurveOidMapper
         SecgCurve::NAME_SECP_256K1 => self::SECP_256K1_OID,
         SecgCurve::NAME_SECP_256R1 => self::SECP_256R1_OID,
         SecgCurve::NAME_SECP_384R1 => self::SECP_384R1_OID,
+        SecgCurve::NAME_SM2 => self::SM2,
+
     );
 
     /**
@@ -129,7 +133,6 @@ class CurveOidMapper
     {
         $oidString = $oid->getContent();
         $invertedMap = array_flip(self::$oidMap);
-
         if (array_key_exists($oidString, $invertedMap)) {
             return CurveFactory::getGeneratorByName($invertedMap[$oidString]);
         }

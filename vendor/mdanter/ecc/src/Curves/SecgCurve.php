@@ -47,6 +47,7 @@ class SecgCurve
     const NAME_SECP_256K1 = 'secp256k1';
     const NAME_SECP_256R1 = 'secp256r1';
     const NAME_SECP_384R1 = 'secp384r1';
+    const NAME_SM2 = 'sm2';
 
     /**
      * @param GmpMathInterface $adapter

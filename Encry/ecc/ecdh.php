@@ -18,13 +18,13 @@ class TestECDH
     {
         $adapter = EccFactory::getAdapter();
         $generator = EccFactory::getNistCurves()->generator256();
-
         $useDerandomizedSignatures = true;
 
         $derPub = new DerPublicKeySerializer();
         $pemPub = new PemPublicKeySerializer($derPub);
         $pemPrivate = new PemPrivateKeySerializer(new DerPrivateKeySerializer($adapter, $derPub));
         $bobPub = $pemPub->parse(file_get_contents(__DIR__ . '/pem/a_public_key.pem'));
+
         $alicePrivate = $pemPrivate->parse(file_get_contents(__DIR__ . '/pem/ecc_ca_private_key.pem'));
         $exchange = $alicePrivate->createExchange($bobPub);
 

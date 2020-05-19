@@ -76,6 +76,58 @@ class TreeDictionary
         return $hitWordArray;
     }
 
+    public function countPrefix($prefix)
+    {
+        $charArray = $this->toCharArray($prefix);
+        unset($str);
+        $node = $this->root;
+        foreach ($charArray as $char) {
+            if (isset($node->sonNodes[$char])) {
+                $node = &$node->sonNodes[$char];
+            } else {
+                return 0;
+            }
+        }
+        return $node->num;
+    }
+
+    public function preTraverse($prefix)
+    {
+        $charArray = $this->toCharArray($prefix);
+        unset($str);
+        $node = $this->root;
+        foreach ($charArray as $char) {
+            if (isset($node->sonNodes[$char])) {
+                $node = &$node->sonNodes[$char];
+            } else {
+                return [];
+            }
+        }
+        return array_map(function ($value) use ($prefix) {
+            return $prefix . $value;
+        }, $this->traverseNode($node));
+    }
+
+    private function traverseNode(TreeNode $node)
+    {
+
+        $wordArray = [];
+        if ($node->isEnd) {
+            $wordArray[] = '';
+        }
+        foreach ($node->sonNodes as $sonNode) {
+            if ($sonNode->isEnd) {
+                $wordArray[] = $sonNode->val;
+            }
+            if ($sonNode->hasSon) {
+                $wordArray = array_merge($wordArray, array_map(function ($value) use ($sonNode) {
+                    return $sonNode->val . $value;
+                }, $this->traverseNode($sonNode)));
+            }
+        }
+        return $wordArray;
+    }
+
     private function toCharArray($word)
     {
         $len = mb_strlen($word);
@@ -113,7 +165,7 @@ class TreeNode
 }
 
 $wordList = [
-    '妈的', '习近平', '胡景涛','习近'
+    '妈的', '习近平', '胡景涛', '习近', '胡景啊', '胡景了','胡来啊实打实'
 ];
 
 $tree = new TreeDictionary();
@@ -123,3 +175,8 @@ foreach ($wordList as $word) {
 
 //var_dump($tree);
 var_dump($tree->search('你是习近平吗！，是的，我是胡景涛，胡景涛'));
+
+var_dump($tree->countPrefix('胡'));
+
+var_dump($tree->preTraverse('胡'));
+
