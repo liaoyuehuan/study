@@ -19,11 +19,16 @@ $http->setDefaultCallback(function (EventHttpRequest $request, $args = null) {
     $buf->add("body : {$request->getInputBuffer()->read(8092)} <br>");
     $buf->add("host : {$request->getHost()} <br>");
     $buf->add("uri : {$request->getUri()} <br>");
+    EventUtil::getSocketName($request->getBufferEvent()->fd, $address, $port);
+    var_dump($request->getBufferEvent()->fd);
+    $buf->add("remote address : {$address} <br>");
+    $buf->add("remote port : {$port} <br>");
     $headers = json_encode($request->getInputHeaders());
     $buf->add("header : {$headers} <br>");
     $request->sendReply(200, 'ok', $buf);
     echo "-- default end" . PHP_EOL;
 });
+
 echo "start" . PHP_EOL;
 $base->loop();
 

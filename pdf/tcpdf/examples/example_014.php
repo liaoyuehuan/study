@@ -187,7 +187,7 @@ $pdf->IncludeJS($js);
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_014.pdf', 'D');
+$pdf->Output('D:/example_014.pdf', 'F');
 
 //============================================================+
 // END OF FILE

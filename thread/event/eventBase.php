@@ -34,7 +34,6 @@ function accept($fd, $what, $eventBase)
         $id = (int)$fd;
         # read
         $buf = socket_read($fd, 8192);
-
         # false一般是，客户端非法断开（需要删除event对象和移除client对象）
         if ($buf === false) {
             unset($eventList[$id], $clientList[$id]);

@@ -12,6 +12,9 @@ socket_listen($resource, 1082);
 # accept
 $clientResource = socket_accept($resource);
 
+# 获取客户端的真实IP、端口
+socket_getpeername($clientResource, $address, $port);
+
 # read
 $buf = socket_read($clientResource, 1000);
 echo 'read ： ' . $buf . PHP_EOL;
