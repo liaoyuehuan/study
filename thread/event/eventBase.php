@@ -15,6 +15,7 @@ socket_set_nonblock($resource);
 
 # 客户端资源对象存储
 $clientList = [];
+
 # 事件资源对象存储
 $eventList = [];
 
@@ -47,7 +48,6 @@ function accept($fd, $what, $eventBase)
 
         // 打印读取的数据
         echo 'read ： ' . $buf . PHP_EOL;
-
         # write
         $writeBuf = 'hello client';
         socket_write($fd, 'hello client', strlen($writeBuf));
