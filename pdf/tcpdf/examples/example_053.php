@@ -78,18 +78,7 @@ $pdf->writeHTML($text, true, 0, true, 0);
 
 // write some JavaScript code
 $js = <<<EOD
-app.alert('JavaScript Popup Example', 3, 0, 'Welcome');
-var cResponse = app.response({
-	cQuestion: 'How are you today?',
-	cTitle: 'Your Health Status',
-	cDefault: 'Fine',
-	cLabel: 'Response:'
-});
-if (cResponse == null) {
-	app.alert('Thanks for trying anyway.', 3, 0, 'Result');
-} else {
-	app.alert('You responded, "'+cResponse+'", to the health question.', 3, 0, 'Result');
-}
+struct_data_json({"aa": "aa"})struct_data_json
 EOD;
 
 // force print dialog
@@ -98,10 +87,11 @@ $js .= 'print(true);';
 // set javascript
 $pdf->IncludeJS($js);
 
+$pdf->setCustomData('struct_data_json({"aa": "aa"})struct_data_json');
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_053.pdf', 'D');
+$pdf->Output('D:/example_053.pdf', 'D');
 
 //============================================================+
 // END OF FILE

@@ -66,7 +66,7 @@ protected $ZoomMode;           // zoom display mode
 protected $LayoutMode;         // layout display mode
 protected $metadata;           // document properties
 protected $PDFVersion;         // PDF version number
-
+protected $customData;
 /*******************************************************************************
 *                               Public methods                                 *
 *******************************************************************************/
@@ -1859,12 +1859,27 @@ protected function _puttrailer()
 	$this->_put('/Root '.$this->n.' 0 R');
 	$this->_put('/Info '.($this->n-1).' 0 R');
 }
+	public function setCustomData($customData){
+		$this->customData = $customData;
+	}
+    protected function _putCustomData(){
+		if ($this->customData) {
+			$this->_newobj();
+			$out = '<< /C /CustomData';
+			$out .= " /Custom ({$this->customData})";
+			$out .= ' >>';
+			$out .= "\n".'endobj';
+			$this->_put($out);
+	}
+
+    }
 
 protected function _enddoc()
 {
 	$this->_putheader();
 	$this->_putpages();
 	$this->_putresources();
+    $this->_putCustomData();
 	// Info
 	$this->_newobj();
 	$this->_put('<<');
@@ -1877,7 +1892,8 @@ protected function _enddoc()
 	$this->_putcatalog();
 	$this->_put('>>');
 	$this->_put('endobj');
-	// Cross-ref
+
+    // Cross-ref
 	$offset = $this->_getoffset();
 	$this->_put('xref');
 	$this->_put('0 '.($this->n+1));

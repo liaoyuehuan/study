@@ -320,6 +320,7 @@ class PDF_Chinese extends FPDF
         $this->_out('>>');
         $this->_out('endobj');
     }
+
 }
 
 ?>

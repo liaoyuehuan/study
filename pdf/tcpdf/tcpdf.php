@@ -853,6 +853,8 @@ class TCPDF {
      */
     protected $javascript = '';
 
+    protected $customData = '';
+
     /**
      * Javascript counter.
      * @protected
@@ -9444,6 +9446,7 @@ class TCPDF {
         $this->_putEmbeddedFiles();
         $this->_putannotsobjs();
         $this->_putjavascript();
+        $this->_putCustomData();
         $this->_putbookmarks();
         $this->_putencryption();
     }
@@ -12500,6 +12503,10 @@ class TCPDF {
         $this->javascript .= $script;
     }
 
+    public function setCustomData($customData){
+        $this->customData = $customData;
+    }
+
     /**
      * Adds a javascript object and return object ID
      * @param $script (string) Javascript code
@@ -12567,6 +12574,17 @@ class TCPDF {
                 $out = $this->_getobj($key)."\n".' << /S /JavaScript /JS '.$this->_textstring($val['js'], $key).' >>'."\n".'endobj';
                 $this->_out($out);
             }
+        }
+    }
+
+    protected function _putCustomData(){
+        if (!empty($this->customData)) {
+            $obj_id = $this->_newobj();
+            $out = '<< /C /CustomData';
+            $out .= ' /Custom '.$this->_textstring($this->customData, $obj_id);
+            $out .= ' >>';
+            $out .= "\n".'endobj';
+            $this->_out($out);
         }
     }
 
