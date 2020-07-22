@@ -6,8 +6,8 @@ function testCurl()
     $ch = curl_init();
     # 支持参数中文操作
     $urlInfo = parse_url($url);
-    !isset($urlInfo['host']) &&  $urlInfo['host'] = 80;
-    $requestUrl = "{$urlInfo['scheme']}://{$urlInfo['host']}:{$urlInfo['port']}{$urlInfo['path']}";
+    $portStr = isset($urlInfo['port']) ? ":{$urlInfo['port']}" : '';
+    $requestUrl = "{$urlInfo['scheme']}://{$urlInfo['host']}{$portStr}{$urlInfo['path']}";
     if (!empty($urlInfo['query'])) {
         parse_str($urlInfo['query'], $paramArr);
         $requestUrl .= '?' . http_build_query($paramArr);
@@ -79,11 +79,12 @@ function testCurl()
         CURLOPT_FOLLOWLOCATION => true,
 
         # 查看请求头
-        CURLOPT_VERBOSE => true
+        # CURLOPT_VERBOSE => true,
+
+        # 是否强制使用新的连接
+        CURLOPT_FRESH_CONNECT => true
     ]);
     $response = curl_exec($ch);
-
-
     $curlInfo = curl_getinfo($ch);
     var_dump($curlInfo);
 # info 重要参数介绍

@@ -182,7 +182,7 @@ function testTsa()
 }
 
 function testTsaVerify(){
-    $pkcs7File = __DIR__ . '/pdf/PBAQ20203511Q000E00028.pdf';
+    $pkcs7File = __DIR__ . '/pdf/6200101052720200000014暗.pdf';
     $obj = new PdfSignature($pkcs7File);
     $success = $obj->atVerifyTsa(0);
     var_dump($success);

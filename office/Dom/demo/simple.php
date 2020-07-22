@@ -1,4 +1,7 @@
 <?php
+register_shutdown_function(function (){
+    var_dump(error_get_last());
+});
 
 $files = [
     [
@@ -48,13 +51,20 @@ function wordToPdf($wordFile, $desFile)
     $comWord->ActiveDocument->Close(false);
     echo '4、quit' . PHP_EOL;
 //    $comWord->Quit(false);
-//    unset($word);
+//    $comWord->Close();
+//    unset($comWord);
     $end = floor(microtime(true) * 1000);
     echo ($end - $start) . 'ms' . PHP_EOL;
     echo 'success' . PHP_EOL;
 }
 
-foreach ($files as $file) {
-    wordToPdf($file['word_file'], $file['des_file']);
-    echo '########################' . PHP_EOL . PHP_EOL;
+try {
+    foreach ($files as $file) {
+        wordToPdf($file['word_file'], $file['des_file']);
+        echo '########################' . PHP_EOL . PHP_EOL;
+    }
+}catch (Exception $e) {
+    echo "################ excption ################".PHP_EOL;
+    echo  $e->getTraceAsString();
 }
+
