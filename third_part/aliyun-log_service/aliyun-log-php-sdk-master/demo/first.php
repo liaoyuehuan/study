@@ -35,8 +35,8 @@ function logVarDump($expression){
 
 
 $endpoint = 'http://cn-shenzhen.log.aliyuncs.com';
-$accessKeyId = 'LTAI4GKVi2zoShi5eMK8Y2vZ';
-$accessKey = 'vzRwmkxouLX7PlMNFU6JKOAmSnhugs';
+$accessKeyId = '';
+$accessKey = '';
 $project = 'esb-log';
 $logstore = 'swoole-log';
 $token = "";
