@@ -9,8 +9,8 @@ class NuoNuoApi
     public function __construct()
     {
         $this->nuoNuo = new NuoNuo([
-            'app_key' => '67346968',
-            'app_secret' => '2EB7554FC8634726',
+            'app_key' => '',
+            'app_secret' => '',
             'redirect_uri' => 'https://test-ebg.conzhu.net/api/independent_third_party/index.php/nuoNuo/receiveInvoice',
             'access_token_gateway' => 'https://open.nuonuo.com/accessToken',
             'gateway' => 'https://sdk.nuonuo.com/open/v1/services'
